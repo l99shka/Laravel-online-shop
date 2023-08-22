@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->foreignId('product_id')->references('id')->on('products');
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->unique(['user_id', 'product_id']);
-            $table->integer('quantity');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('categories');
     }
 };

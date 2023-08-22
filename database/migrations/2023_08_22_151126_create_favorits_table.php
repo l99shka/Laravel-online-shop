@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->foreignId('user_id_from')->references('id')->on('users');
-            $table->foreignId('user_id_to')->references('id')->on('users');
-            $table->string('message');
+        Schema::create('favorits', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->unique(['product_id', 'user_id']);
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('favorits');
     }
 };

@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comparisons', function (Blueprint $table) {
-            $table->foreignId('product_id')->references('id')->on('products');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('comment');
+            $table->string('contact_phone');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comparisons');
+        Schema::dropIfExists('orders');
     }
 };
