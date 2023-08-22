@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class CategoryController
-{
+use Illuminate\Http\Request;
 
+class CategoryController extends Controller
+{
+    //
 }

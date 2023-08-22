@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class FavoritController
-{
+use Illuminate\Http\Request;
 
+class FavoritController extends Controller
+{
+    //
 }

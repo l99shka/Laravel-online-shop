@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-class OrderPosition
-{
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
+class OrderPosition extends Model
+{
+    use HasFactory;
 }

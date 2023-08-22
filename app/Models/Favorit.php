@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-class Favorit
-{
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
+class Favorit extends Model
+{
+    use HasFactory;
 }

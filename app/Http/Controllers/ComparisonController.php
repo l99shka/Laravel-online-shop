@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class ComparisonController
-{
+use Illuminate\Http\Request;
 
+class ComparisonController extends Controller
+{
+    //
 }
