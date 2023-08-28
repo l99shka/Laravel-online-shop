@@ -10,9 +10,9 @@
 
 <form action="{{ route('register-user') }}" method="post">
     @csrf
-    <label>Имя</label>
+    <label>ФИО</label>
     <label style="color: #4b1010">@error('full_name') {{ $message }} @enderror</label>
-    <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Введите имя">
+    <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Введите ФИО">
     <label>E-mail</label>
     <label style="color: #4b1010">@error('email') {{ $message }} @enderror</label>
     <input type="email" name="email" value="{{ old('email') }}" placeholder="Введите E-mail">
@@ -27,7 +27,7 @@
     <input type="password" name="password_confirmation" placeholder="Повторите пароль">
     <button type="submit" class="register-btn">Зарегистрироваться</button>
     <p>
-        У вас уже есть аккаунт? - <a href="/login">Авторизируйтесь</a>!
+        У вас уже есть аккаунт? - <a href="{{ route('login-user') }}">Авторизируйтесь</a>!
     </p>
 </form>
 </body>

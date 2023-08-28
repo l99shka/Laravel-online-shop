@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('order_positions', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('order_id')->references('id')->on('orders');
             $table->unique(['order_id', 'product_id']);

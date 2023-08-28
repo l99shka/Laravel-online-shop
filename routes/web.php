@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/main', fn () => 'hello')->name('main');
 
-Route::get('/registration', [UserController::class, 'create'])->name('register-user');
-Route::post('/registration', [UserController::class, 'store']);
+Route::get('/registration', [UserController::class, 'registration'])->middleware('guest')->name('register-user');
+Route::post('/registration', [UserController::class, 'create']);
+Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login-user');
+Route::post('/login', [UserController::class, 'authorizeUser']);
