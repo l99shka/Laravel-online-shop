@@ -163,8 +163,20 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'full_name' => [
+            'required' => '*Введите :attribute'
+        ],
+        'email' => [
+            'required' => '*Введите :attribute'
+        ],
+        'phone' => [
+            'required' => '*Введите :attribute'
+        ],
+        'password' => [
+            'required' => '*Введите :attribute'
+        ],
+        'password_confirmation' => [
+            'required' => '*Повторите пароль'
         ],
     ],
 
@@ -179,6 +191,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'full_name' => 'ФИО',
+        'email' => 'E-mail',
+        'phone' => 'Телефон',
+        'password' => 'Пароль'
+    ],
 
 ];

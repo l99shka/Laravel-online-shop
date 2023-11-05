@@ -12,5 +12,4 @@ class User extends Model implements Authenticatable
     use HasFactory;
     use AuthenticableTrait;
     protected $guarded = [];
-    public $timestamps = true;
 }
