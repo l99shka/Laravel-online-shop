@@ -5,7 +5,7 @@
     <title>@yield('title')</title>
     <link href="{{ asset('/css/catalog.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/cart.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('/js/cart.js') }}"></script>
 </head>
 <body>
 <nav>

@@ -38,12 +38,28 @@ nav .menu {
     padding: 15px;
     color: #f8f7f5;
     font-size: 20px;
-    display: block;
+    display: flex;
 }
 
 nav .menu:hover {
     background: #4d4a4a;
     color: #FFFFFF;
+}
+
+nav .count-style {
+    /*position: absolute;*/
+    background-color: #d62240;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    top: -5px;
+    right: -5px;
 }
 
 /*Catalog*/

@@ -4,7 +4,7 @@
     height: auto;
     margin: 80px auto;
     background: #FFFFFF;
-    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+    box-shadow: 1px 2px 3px 0 rgba(0,0,0,0.10);
     border-radius: 6px;
 
     display: flex;
@@ -22,11 +22,13 @@
 
 .item {
     padding: 20px 30px;
-    height: 120px;
+    height: auto;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.item:nth-child(3) {
+.item:nth-child(2n+1) {
     border-top:  1px solid #E1E8EE;
     border-bottom:  1px solid #E1E8EE;
 }
@@ -36,6 +38,7 @@
     padding-top: 30px;
     margin-right: 60px;
 }
+
 .delete-btn {
     display: inline-block;
     Cursor: pointer;
@@ -48,12 +51,14 @@
 
 .image {
     margin-right: 50px;
+    text-align: center;
 }
 
 .description {
     padding-top: 10px;
     margin-right: 60px;
     width: 115px;
+    text-align: center;
 }
 
 .description span {
@@ -75,6 +80,7 @@
 .quantity {
     padding-top: 20px;
     margin-right: 60px;
+    text-align: center;
 }
 .quantity input {
     -webkit-appearance: none;
@@ -101,6 +107,14 @@ button[class*=btn] {
     margin-top: 2px;
 }
 
+.plus-btn:hover {
+    background: #ddf3f1;
+}
+
+.minus-btn:hover {
+    background: #efd2d2;
+}
+
 button:focus,
 input:focus {
     outline:0;
@@ -113,30 +127,4 @@ input:focus {
     font-size: 16px;
     color: #43484D;
     font-weight: 300;
-}
-
-@media (max-width: 800px) {
-    .shopping-cart {
-        width: 100%;
-        height: auto;
-        overflow: hidden;
-    }
-    .item {
-        height: auto;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .image img {
-        width: 50%;
-    }
-    .image,
-    .quantity,
-    .description {
-        width: 100%;
-        text-align: center;
-        margin: 6px 0;
-    }
-    .buttons {
-        margin-right: 20px;
-    }
 }
