@@ -201,7 +201,7 @@ nav .catalog ul li a:hover {
     display: block;
     margin-bottom: 12px;
 }
-.button {
+.cart-button {
     text-decoration: none;
     display: inline-block;
     padding: 0 12px;

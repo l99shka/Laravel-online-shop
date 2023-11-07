@@ -26,6 +26,6 @@ Route::get('/catalog', [MainController::class, 'catalog'])->name('catalog');
 Route::get('/category/{id}', [MainController::class, 'category'])->name('category');
 
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-Route::get('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+Route::get('/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('add-to-cart');
 
 
