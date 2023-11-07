@@ -60,11 +60,12 @@
                 @endauth
             </svg>
         </a>
+        @guest()
             <a class="menu" href="{{ route('register-user') }}">Регистрация</a>
             <a class="menu" href="{{ route('login-user') }}">Вход</a>
+        @endguest
 
         @auth
-
             <a class="menu" href="">Личный кабинет</a>
 
             <form method="post" class="logout" action="{{ route('logout') }}">
