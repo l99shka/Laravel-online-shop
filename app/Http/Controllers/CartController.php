@@ -15,19 +15,21 @@ class CartController extends Controller
     public function cart()
     {
         $sessionId = Session::getId();
+
         \Cart::session($sessionId);
-        $cart = \Cart::getContent();
+
 
         $join = DB::table('products')
             ->join('carts', 'carts.product_id', '=', 'products.id')
-            ->select('products.image', 'products.name', 'products.description', 'products.price', 'carts.quantity')
+            ->select('products.image', 'products.name', 'products.description', 'products.price', 'carts.quantity', )
             ->where('carts.user_id', '=', Auth::id())
             ->get();
 
         return view('cart.cart', [
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'cart' => $join,
-            'sessionCart' => $cart
+            'categories'  => Category::with('children')->where('parent_id', 0)->get(),
+            'cart'        => $join,
+            'sessionCart' => \Cart::getContent(),
+            'sumQuantity' => Cart::where('user_id', Auth::id())->sum('quantity')
         ]);
     }
 
