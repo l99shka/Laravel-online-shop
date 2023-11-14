@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('comment');
             $table->string('contact_phone');
+            $table->string('statuses');
         });
     }
 

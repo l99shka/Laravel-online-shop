@@ -218,7 +218,6 @@ nav .catalog ul li a:hover {
     margin-bottom: 12px;
 }
 .cart-button {
-    text-decoration: none;
     display: inline-block;
     padding: 0 12px;
     background: #46b7ae;
@@ -226,9 +225,13 @@ nav .catalog ul li a:hover {
     text-transform: uppercase;
     font-size: 12px;
     line-height: 28px;
-    transition: .3s ease-in;
+    transition: .1s ease-in;
+    cursor: pointer;
+    border: 0;
+    font-weight: 900;
+    border-radius: 6px;
 }
-.product-item:hover .button {
+.cart-button:hover {
     background: #6dc718;
 }
 

@@ -128,3 +128,25 @@ input:focus {
     color: #43484D;
     font-weight: 300;
 }
+
+.order-button {
+    display: block;
+    padding: 0 12px;
+    background: #767978;
+    color: white;
+    font-size: 15px;
+    line-height: 28px;
+    transition: .3s ease-in;
+    cursor: pointer;
+    width: auto;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -75px;
+    border: 0;
+    font-weight: 800;
+    border-radius: 6px;
+}
+.order-button:hover {
+    background: #65beb7;
+}
