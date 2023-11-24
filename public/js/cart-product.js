@@ -1,33 +1,36 @@
-$(document).ready(function () {
-    $('.cart-button').on('click', function() {
+$('.cart-product-button').click(function(e) {
+    e.preventDefault()
 
-        var id = this.dataset.id;
+    var id = this.dataset.id;
 
-        $.ajax({
+    $.ajax({
 
-            url: '/add-to-cart',
-            type: "POST",
-            data: {
-                id: id,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: (data) => {
-                console.log(data)
-            },
-            error: (data) => {
-                console.log(data)
+        url: '/add-to-cart',
+        type: "POST",
+        datatype: 'json',
+        data: {
+            id: id,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            console.log(data);
+
+            if (data.status === false) {
+                window.location.href = '/login';
+            } else {
+                window.location.reload();
             }
-
-        });
+        }
     });
-})
-
+});
 
 
 $(document).ready(function () {
     $('.minus-btn').on('click', function() {
+        refreshPage()
+
         var id = this.dataset.id;
 
         $.ajax({
@@ -48,25 +51,16 @@ $(document).ready(function () {
             }
 
         });
-
-        // var $this = $(this);
-        // var $input = $this.closest('div').find('input');
-        // var value = parseInt($input.val());
-        //
-        // if (value > 2) {
-        //     value = value - 1;
-        // } else {
-        //     value = 1;
-        // }
-        //
-        // $input.val(value);
-
+        function refreshPage(){
+            window.location.reload();
+        }
     });
 })
 
 
 $(document).ready(function () {
     $('.plus-btn').on('click', function() {
+        refreshPage()
 
         var id = this.dataset.id;
 
@@ -88,24 +82,16 @@ $(document).ready(function () {
             }
 
         });
-
-        // var $this = $(this);
-        // var $input = $this.closest('div').find('input');
-        // var value = parseInt($input.val());
-        //
-        // if (value < 100) {
-        //     value = value + 1;
-        // } else {
-        //     value =100;
-        // }
-        //
-        // $input.val(value);
+        function refreshPage(){
+            window.location.reload();
+        }
     });
 
 });
 
 $(document).ready(function () {
     $('.delete-btn').on('click', function() {
+        refreshPage()
 
         var id = this.dataset.id;
 
@@ -127,6 +113,9 @@ $(document).ready(function () {
             }
 
         });
+        function refreshPage(){
+            window.location.reload();
+        }
     });
 })
 

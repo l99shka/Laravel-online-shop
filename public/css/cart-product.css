@@ -18,6 +18,7 @@
     color: #5E6977;
     font-size: 18px;
     font-weight: 400;
+    text-align: left;
 }
 
 .item {
@@ -28,15 +29,15 @@
     justify-content: center;
 }
 
-.item:nth-child(2n+1) {
-    border-top:  1px solid #E1E8EE;
-    border-bottom:  1px solid #E1E8EE;
+.item:nth-child(1n+1) {
+    border-bottom:  2px solid #E1E8EE;
 }
 
 .buttons {
     position: relative;
     padding-top: 30px;
-    margin-right: 60px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .delete-btn {
@@ -47,16 +48,19 @@
     width: 18px;
     height: 17px;
     background: url('https://img.icons8.com/?size=25&id=5sz1nAc6P00W&format=png') no-repeat center;
+    margin-left: 0;
 }
 
 .image {
-    margin-right: 50px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 
 .description {
     padding-top: 10px;
-    margin-right: 60px;
+    margin-right: auto;
+    margin-left: auto;
     width: 115px;
     text-align: center;
 }
@@ -79,7 +83,8 @@
 
 .quantity {
     padding-top: 20px;
-    margin-right: 60px;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
 }
 .quantity input {
@@ -127,26 +132,28 @@ input:focus {
     font-size: 16px;
     color: #43484D;
     font-weight: 300;
+    margin-left: auto;
+    margin-right: 20px;
 }
+
 
 .order-button {
     display: block;
-    padding: 0 12px;
     background: #767978;
-    color: white;
-    font-size: 15px;
-    line-height: 28px;
     transition: .3s ease-in;
     cursor: pointer;
-    width: auto;
+    width: 200px;
     height: 60px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: -75px;
-    border: 0;
+    margin: 15px auto 20px;
     font-weight: 800;
     border-radius: 6px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 28px;
 }
 .order-button:hover {
     background: #65beb7;
 }
+
+
