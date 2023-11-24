@@ -2,36 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
-class CartController extends Controller
+class CartProductController extends Controller
 {
-    public function cart()
+    public function cartProduct()
     {
-        $cart = DB::table('products')
-            ->join('carts', 'carts.product_id', '=', 'products.id')
-            ->select('carts.id', 'products.image', 'products.name', 'products.description', 'carts.quantity', DB::raw('products.price*carts.quantity as price'))
-            ->where('carts.user_id', '=', Auth::id())
+        $cartProduct = DB::table('products')
+            ->join('cart_products', 'cart_products.product_id', '=', 'products.id')
+            ->select('cart_products.id', 'products.image', 'products.name', 'products.description', 'cart_products.quantity', DB::raw('products.price*cart_products.quantity as price'))
+            ->where('cart_products.user_id', '=', Auth::id())
             ->get();
 
-        $sumTotalPrice = $cart->sum('price');
+        $sumTotalPrice = $cartProduct->sum('price');
 
-        return view('cart.cart', [
+        return view('cart-product.cart-product', [
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'cart' => $cart,
-            'sumQuantity' => Cart::where('user_id', Auth::id())->sum('quantity'),
+            'cartProduct' => $cartProduct,
+            'sumQuantity' => CartProduct::where('user_id', Auth::id())->sum('quantity'),
             'sumTotalPrice' => $sumTotalPrice
         ]);
     }
 
-    public function addToCart(Request $request)
+    public function addToCartProduct(Request $request)
     {
         if (empty(Auth::id()))
         {
@@ -39,8 +38,8 @@ class CartController extends Controller
             $user->save();
 
             Auth::login($user);
-//            cartProduct
-            Cart::create([
+
+            CartProduct::create([
                 'user_id' => Auth::id(),
                 'product_id' => $request->id,
                 'quantity' => 1
@@ -49,39 +48,38 @@ class CartController extends Controller
         } else {
             $product = Product::findOrFail($request->id);
 
-            if ($cart = Cart::where(['user_id' => Auth::id(), 'product_id' => $product->id])->first()) {
+            if ($cart = CartProduct::where(['user_id' => Auth::id(), 'product_id' => $product->id])->first()) {
                 $cart->quantity++;
                 $cart->save();
             } else {
-                Cart::create([
+                CartProduct::create([
                     'user_id' => Auth::id(),
                     'product_id' => $request->id,
                     'quantity' => 1
                 ]);
             }
-            return response()->json(['status' => true]);
         }
     }
 
     public function updateQuantityPlus(Request $request)
     {
-        if ($cart = Cart::where('id', $request->id)->first()) {
+        if ($cart = CartProduct::where('id', $request->id)->first()) {
             $cart->increment('quantity', 1);
         }
     }
 
     public function updateQuantityMinus(Request $request)
     {
-        if ($cart = Cart::where('id', $request->id)->first()) {
+        if ($cart = CartProduct::where('id', $request->id)->first()) {
             if ($cart->quantity > 1) {
                 $cart->decrement('quantity', 1);
             }
         }
     }
 
-    public function deleteProduct(Request $request)
+    public function deleteToCartProduct(Request $request)
     {
-        if ($cart = Cart::where('id', $request->id)->first()) {
+        if ($cart = CartProduct::where('id', $request->id)->first()) {
             $cart->delete();
         }
     }

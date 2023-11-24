@@ -1,11 +1,11 @@
-$('.cart-product-button').click(function(e) {
+$('.add-button').click(function(e) {
     e.preventDefault()
 
     var id = this.dataset.id;
 
     $.ajax({
 
-        url: '/add-to-cart',
+        url: '/addToCartProduct',
         type: "POST",
         datatype: 'json',
         data: {
@@ -17,11 +17,7 @@ $('.cart-product-button').click(function(e) {
         success: (data) => {
             console.log(data);
 
-            if (data.status === false) {
-                window.location.href = '/login';
-            } else {
-                window.location.reload();
-            }
+            window.location.reload();
         }
     });
 });
@@ -97,7 +93,7 @@ $(document).ready(function () {
 
         $.ajax({
 
-            url: '/deleteProduct',
+            url: '/deleteToCartProduct',
             type: "POST",
             data: {
                 id: id,

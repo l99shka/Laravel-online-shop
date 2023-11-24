@@ -43,7 +43,7 @@ class UserController extends Controller
                 'auth' => '*Неверный логин или пароль'
             ]);
         }
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->intended();
     }
 
     public function logout(Request $request)

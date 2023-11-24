@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" charset="UTF-8">
     <title>@yield('title')</title>
     <link href="{{ asset('/css/catalog.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/cart.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/cart-product.css') }}" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -47,16 +47,11 @@
     </div>
 
     <div class="nav__section">
-        <a class="menu" href="{{ route('cart') }}">
+        <a class="menu" href="{{ route('cartProduct') }}">
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 2.5V6.5H3V20.5C3 21.0304 3.21071 21.5391 3.58579 21.9142C3.96086 22.2893 4.46957 22.5 5 22.5H19C19.5304 22.5 20.0391 22.2893 20.4142 21.9142C20.7893 21.5391 21 21.0304 21 20.5V6.5H17V2.5H7Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M3 6.5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                @guest()
-                <span class="count-style" id="icon">{{ \Cart::session(Session::getId())->getTotalQuantity() }}</span>
-                @endguest
-                @auth()
-                    <span class="count-style" id="icon">{{ $sumQuantity }}</span>
-                @endauth
+                <span class="count-style" id="icon">{{ $sumQuantity }}</span>
             </svg>
         </a>
         @guest
@@ -65,13 +60,11 @@
         @endguest
 
             @auth
-
             <a class="menu" href="">Личный кабинет</a>
-
-                <form method="post" class="logout" action="{{ route('logout') }}">
-                    @csrf
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="menu">Выход</a>
-                </form>
+            <form method="post" class="logout" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="menu">Выход</a>
+            </form>
             @endauth
     </div>
 </nav>
@@ -85,14 +78,14 @@
             <div class="product-list">
                 <h3>{{ $product->name }}</h3>
                 <h4>{{ $product->description }}</h4>
-                <span class="price">{{ $product->price }} руб.</span>
-                <button type="button" class="cart-button" name="button" data-id="{{ $product->id }}" onclick="location.reload()">В корзину</button>
+                <span class="price">{{ number_format($product->price , 2, ',', ' ') }} руб.</span>
+                <button type="submit" class="add-button" name="button" data-id="{{ $product->id }}" >В корзину</button>
             </div>
         </div>
     @endforeach
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="{{ asset('/js/cart.js') }}"></script>
+<script src="{{ asset('/js/cart-product.js') }}"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" charset="UTF-8">
     <title>@yield('title')</title>
     <link href="{{ asset('/css/catalog.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/cart.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/cart-product.css') }}" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -65,8 +65,8 @@
 </nav>
 
 @yield('content')
-@yield('cart')
+@yield('cart-product')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="{{ asset('/js/cart.js') }}"></script>
+<script src="{{ asset('/js/cart-product.js') }}"></script>
 </body>
 </html>
