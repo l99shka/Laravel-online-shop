@@ -7,8 +7,12 @@ use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderPosition;
+use App\Service\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use YooKassa\Model\Notification\NotificationEventType;
+use YooKassa\Model\Notification\NotificationSucceeded;
+use YooKassa\Model\Notification\NotificationWaitingForCapture;
 
 
 class OrderController extends Controller
@@ -31,23 +35,23 @@ class OrderController extends Controller
         ]);
     }
 
-    public function addOrders(OrderRequest $request)
+    public function addOrders(OrderRequest $request, PaymentService $service)
     {
+        $products = DB::table('products')
+            ->join('cart_products', 'cart_products.product_id', '=', 'products.id')
+            ->select(DB::raw('products.price*cart_products.quantity as price'), 'cart_products.product_id', 'cart_products.quantity')
+            ->where('cart_products.user_id', '=', Auth::id())
+            ->get();
+
+        $amount = $products->sum('price');
+
         DB::beginTransaction();
-
         try {
-
             $order = Order::create([
-                'user_id'    => Auth::id(),
-                'comment' => $request->message,
+                'user_id'         => Auth::id(),
+                'comment'         => $request->message,
                 'contact_phone'   => $request->phone
             ]);
-
-            $products = DB::table('products')
-                ->join('cart_products', 'cart_products.product_id', '=', 'products.id')
-                ->select(DB::raw('products.price*cart_products.quantity as price'), 'cart_products.product_id', 'cart_products.quantity')
-                ->where('cart_products.user_id', '=', Auth::id())
-                ->get();
 
             foreach ($products as $item) {
 
@@ -66,10 +70,48 @@ class OrderController extends Controller
             DB::rollBack();
             return response()->json(['alert' => 'Повторите попытку']);
         }
+
+        $link = $service->createPayment($amount, [
+            'order_id' => $order->id,
+            'user_id'  => Auth::id()
+        ]);
+
+        return response()->json(['link' => $link]);
     }
 
-    public function pay()
+    public function callbackPay(PaymentService $service)
     {
-        return view('orders.pay');
+        $source = file_get_contents('php://input');
+        $requestBody = json_decode($source, true);
+        $notification = ($requestBody['event'] && $requestBody['event'] === NotificationEventType::PAYMENT_SUCCEEDED)
+              ? new NotificationSucceeded($requestBody)
+              : new NotificationWaitingForCapture($requestBody);
+        $payment = $notification->getObject();
+
+        if (isset($payment->status) && $payment->status === 'waiting_for_capture') {
+            $service->getClient()->capturePayment([
+                'amount' => $payment->amount
+            ], $payment->id, uniqid('', true));
+        }
+
+        if (isset($payment->status) && $payment->status === 'succeeded') {
+            $metadata = $payment->metadata;
+
+            if(isset($metadata->user_id)) {
+
+                $userId = $metadata->user_id;
+                CartProduct::where('user_id', $userId)->delete();
+            }
+            if ($payment->paid === true) {
+
+                if(isset($metadata->order_id)) {
+
+                    $orderId = $metadata->order_id;
+                    $order = Order::find($orderId);
+                    $order->status = Order::PAID;
+                    $order->save();
+                }
+            }
+        }
     }
 }

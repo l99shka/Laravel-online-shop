@@ -19,7 +19,7 @@ $(document).on('click', '#orderPay-button', function(e) {
                 if (data.alert) {
                     alert(data.alert);
                 } else {
-                    window.location = '/orders/pay';
+                    window.location = data.link;
                 }
             },
             error: function (reject) {

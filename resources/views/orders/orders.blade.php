@@ -29,20 +29,10 @@
                 </div>
             @endforeach
 
-{{--            @if ($errors->any())--}}
-{{--                <div class="alert alert-danger">--}}
-{{--                    <ul>--}}
-{{--                        @foreach ($errors->all() as $error)--}}
-{{--                            <li>{{ $error }}</li>--}}
-{{--                        @endforeach--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-
             <div class="label-input">
                 <label id="number-label" for="number">Номер телефона:</label>
                 <input id="number" name="phone" type="tel" placeholder="Введите телефон... " class="form-control">
-                <span id="phone_error" style="color: #4b1010"></span>
+                <span id="phone_error" style="color: #4b1010">@error('phone') {{ $message }} @enderror</span>
             </div>
 
             <p> Оставьте коменнатарий к заказу (Необязательно) </p>

@@ -11,4 +11,8 @@ class Order extends Model
     use HasFactory;
     use AuthenticableTrait;
     protected $guarded = [];
+
+    public const PAID = 'PAID';
+    public const CANCELED = 'CANCELED';
+    public const UNPAID = 'UNPAID';
 }

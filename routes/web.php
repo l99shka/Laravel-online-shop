@@ -56,8 +56,7 @@ Route::get('/orders', [OrderController::class, 'order'])
 Route::post('/add-orders', [OrderController::class, 'addOrders'])
     ->middleware('auth')
     ->name('add-orders');
-Route::get('/orders/pay', [OrderController::class, 'pay'])
-    ->middleware('auth')
-    ->name('pay');
+Route::post('/orders/pay/callback', [OrderController::class, 'callbackPay'])
+    ->name('callback');
 
 
