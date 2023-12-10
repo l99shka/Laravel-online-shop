@@ -6,6 +6,8 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegistrationRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Service\MessageService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,17 +20,29 @@ class UserController extends Controller
         return view('auth.registration');
     }
 
-    public function create(RegistrationRequest $request)
+    public function create(RegistrationRequest $request, MessageService $service)
     {
-        User::create([
+        $user = User::create([
             'full_name' => $request->full_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password)
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+            'password'  => Hash::make($request->password),
+            'role'      => 'user'
             ]
         );
 
-        return redirect('/login');
+        if ($user) {
+            Auth::login($user);
+            $queue = 'Registration';
+            $data = [
+                'id' => $user->id
+            ];
+            $service->publish($queue, $data);
+
+            return redirect()->route('verification.notice');
+        }
+
+        return redirect()->intended();
     }
 
     public function login()
@@ -38,12 +52,13 @@ class UserController extends Controller
 
     public function authorizeUser(LoginRequest $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (Auth::attempt($request->only('email', 'password'))) {
+            return redirect()->intended();
+        } else {
             throw ValidationException::withMessages([
                 'auth' => '*Неверный логин или пароль'
             ]);
         }
-        return redirect()->intended();
     }
 
     public function logout(Request $request)

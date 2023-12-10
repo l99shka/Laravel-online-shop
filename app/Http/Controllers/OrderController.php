@@ -7,6 +7,7 @@ use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderPosition;
+use App\Service\MessageService;
 use App\Service\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,12 +28,16 @@ class OrderController extends Controller
 
         $sumTotalPrice = $cartProduct->sum('price');
 
-        return view('orders.orders', [
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'cartProduct' => $cartProduct,
-            'sumQuantity' => CartProduct::where('user_id', Auth::id())->sum('quantity'),
-            'sumTotalPrice' => $sumTotalPrice
-        ]);
+        if ($cartProduct->isEmpty()) {
+            return redirect()->back();
+        } else {
+            return view('orders.orders', [
+                'categories' => Category::with('children')->where('parent_id', 0)->get(),
+                'cartProduct' => $cartProduct,
+                'sumQuantity' => CartProduct::where('user_id', Auth::id())->sum('quantity'),
+                'sumTotalPrice' => $sumTotalPrice
+            ]);
+        }
     }
 
     public function addOrders(OrderRequest $request, PaymentService $service)
@@ -50,7 +55,8 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id'         => Auth::id(),
                 'comment'         => $request->message,
-                'contact_phone'   => $request->phone
+                'contact_phone'   => $request->phone,
+                'email'           => $request->email
             ]);
 
             foreach ($products as $item) {
@@ -73,13 +79,14 @@ class OrderController extends Controller
 
         $link = $service->createPayment($amount, [
             'order_id' => $order->id,
-            'user_id'  => Auth::id()
+            'user_id'  => Auth::id(),
+            'email'    => $order->email
         ]);
 
         return response()->json(['link' => $link]);
     }
 
-    public function callbackPay(PaymentService $service)
+    public function callbackPay(PaymentService $service, MessageService $message)
     {
         $source = file_get_contents('php://input');
         $requestBody = json_decode($source, true);
@@ -110,6 +117,16 @@ class OrderController extends Controller
                     $order = Order::find($orderId);
                     $order->status = Order::PAID;
                     $order->save();
+                }
+
+                if(isset($metadata->email)) {
+
+                    $email = $metadata->email;
+                    $queue = 'OrderMessage';
+                    $data = [
+                        'email' => $email
+                    ];
+                    $message->publish($queue, $data);
                 }
             }
         }

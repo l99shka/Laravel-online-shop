@@ -54,22 +54,27 @@
                 <span class="count-style" id="icon">{{ $sumQuantity }}</span>
             </svg>
         </a>
-        @guest
-    <a class="menu" href="{{ route('register-user') }}">Регистрация</a>
-    <a class="menu" href="{{ route('login-user') }}">Вход</a>
+        @guest()
+            <a class="menu" href="{{ route('register-user') }}">Регистрация</a>
+            <a class="menu" href="{{ route('login-user') }}">Вход</a>
         @endguest
 
-            @auth
+        @can('guest', auth()->user())
+    <a class="menu" href="{{ route('register-user') }}">Регистрация</a>
+    <a class="menu" href="{{ route('login-user') }}">Вход</a>
+        @endcan
+
+        @can('user', auth()->user())
             <a class="menu" href="">Личный кабинет</a>
             <form method="post" class="logout" action="{{ route('logout') }}">
                 @csrf
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="menu">Выход</a>
             </form>
-            @endauth
+        @endcan
     </div>
 </nav>
 
-    @yield('content')
+@yield('content')
 
 <div class="product-card">
     @foreach($products as $product)

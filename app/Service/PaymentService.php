@@ -56,7 +56,8 @@ class PaymentService
             'capture' => false,
             'metadata' => [
                 'order_id'       => $options['order_id'],
-                'user_id'        => $options['user_id']
+                'user_id'        => $options['user_id'],
+                'email'          => $options['email']
             ]
         ], uniqid('', true)
         );

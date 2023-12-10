@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\EmailVerificationNotificationController;
+use App\Http\Controllers\EmailVerificationPromtController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PublishController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +21,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/registration', [UserController::class, 'registration'])
-    ->middleware('guest')
+//    ->middleware('role_guest')
     ->name('register-user');
 Route::post('/registration', [UserController::class, 'create']);
+
+
+
+
+//--------------Verification by Email-------------
+Route::get('/email/verify', EmailVerificationPromtController::class)
+    ->middleware('role_user')
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['role_user', 'signed', 'throttle:6.1'])
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', EmailVerificationNotificationController::class)
+    ->middleware(['role_user', 'throttle:6.1'])
+    ->name('verification.send');
+//------------------------------------------------
+
+
+
+
 Route::get('/login', [UserController::class, 'login'])
-    ->middleware('guest')
+    ->middleware('role_guest')
     ->name('login-user');
 Route::post('/login', [UserController::class, 'authorizeUser']);
 Route::post('/logout', [UserController::class, 'logout'])
-    ->middleware('auth')
+    ->middleware('role_user')
     ->name('logout');
 
 

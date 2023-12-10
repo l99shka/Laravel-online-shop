@@ -55,12 +55,18 @@
             </svg>
         </a>
 
-        <a class="menu" href="">Личный кабинет</a>
+        @can('guest', auth()->user())
+            <a class="menu" href="{{ route('register-user') }}">Регистрация</a>
+            <a class="menu" href="{{ route('login-user') }}">Вход</a>
+        @endcan
 
-        <form method="post" class="logout" action="{{ route('logout') }}">
-            @csrf
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="menu">Выход</a>
-        </form>
+        @can('user', auth()->user())
+            <a class="menu" href="">Личный кабинет</a>
+            <form method="post" class="logout" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="menu">Выход</a>
+            </form>
+        @endcan
     </div>
 </nav>
 

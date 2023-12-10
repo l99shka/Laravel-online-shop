@@ -235,11 +235,10 @@ nav .catalog ul li a:hover {
     background: #6dc718;
 }
 
-header {
+.home-cards {
     padding: 130px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #b6b1b0;
-    color: #2a2621;
+    background: #dcdcde;
     font-size: 25px;
     line-height: 1.5;
     text-align: center;
@@ -269,3 +268,56 @@ body {
     background: #f7f8f8;
 }
 
+.email {
+    line-height: 3;
+    background: #dcdcde;
+    font-size: 18px;
+    text-align: center;
+    margin-left: 550px;
+    margin-right: 550px;
+    border-radius: 10px;
+}
+
+.email h1 {
+    font-family: Marker Felt, fantasy;
+    color: #020202;
+    text-decoration: none;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.email-verify {
+    color: #020202;
+    font-size: 18px;
+    border: 1px solid #209311;
+    border-radius: 10px;
+    background: #ceefd4;
+    font-family: Trattatello, fantasy;
+    position: relative;
+    padding: 20px 20px 20px 60px;
+}
+
+.verify-button {
+    display: inline-block;
+    padding: 0 12px;
+    background: #46b7ae;
+    color: white;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 28px;
+    transition: .1s ease-in;
+    cursor: pointer;
+    border: 0;
+    font-weight: 900;
+    border-radius: 6px;
+}
+.verify-button:hover {
+    background: #393a39;
+}
+
+.email .children .email-verify svg {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.825em;
+    margin-left: -40px;
+}

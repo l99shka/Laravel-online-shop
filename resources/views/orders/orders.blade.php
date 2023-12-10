@@ -30,9 +30,13 @@
             @endforeach
 
             <div class="label-input">
-                <label id="number-label" for="number">Номер телефона:</label>
+                <label id="number-label" for="number">Номер телефона</label>
                 <input id="number" name="phone" type="tel" placeholder="Введите телефон... " class="form-control">
                 <span id="phone_error" style="color: #4b1010">@error('phone') {{ $message }} @enderror</span>
+
+                <label id="number-label" for="email">E-mail</label>
+                <input id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control">
+                <span id="email_error" style="color: #4b1010">@error('email') {{ $message }} @enderror</span>
             </div>
 
             <p> Оставьте коменнатарий к заказу (Необязательно) </p>

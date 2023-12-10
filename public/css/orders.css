@@ -32,6 +32,8 @@
     font-size: 14px;
     width: 350px;
     border: none;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .label-input {
@@ -42,6 +44,7 @@
 }
 
 #number-label {
+    display: block;
     color: #656463;
     font-size: 20px;
 }
@@ -57,6 +60,7 @@
     box-shadow: 0 5px 10px #abadad;
     background: #eaecee;
     border: none;
+    margin-left: 10px;
 }
 
 #orderPay-button {
@@ -82,7 +86,7 @@
 
 
 p {
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 20px;
     color: #656463;
     font-size: 20px;

@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
                 'description' => 'Наручные',
                 'category_id' => 8,
                 'price'       => 15000,
-                'image'       => 'https://images.satu.kz/113814177_w159_h159_naruchnye-chasy-casio.jpg'
+                'image'       => 'http://casio-shops.ru/image/cache/catalog/files/dJkPpl5zwaDtJ8j0jIQRaA-500x500.jpg'
             ],
             [
                 'name'        => 'Портативная колонка JBL Boombox 2 Black',

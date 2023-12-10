@@ -25,6 +25,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'phone' => ['required', 'string', 'min:6', 'max:24'],
+            'email' => ['required', 'string', 'email', 'min:6', 'max:24']
         ];
     }
 }

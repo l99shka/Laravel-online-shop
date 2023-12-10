@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('full_name')->nullable();
             $table->string('password')->nullable();
+            $table->string('role')->default('guest');
+            $table->string('email_verified_at')->nullable();
+            $table->string('remember_token')->nullable();
         });
     }
 

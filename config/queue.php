@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'rabbitmq'),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,6 +88,19 @@ return [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
+    ],
+    'rabbitmq' => [
+
+        'driver' => 'rabbitmq',
+        'hosts' => [
+            [
+                'host' => env('RABBITMQ_HOST', 'rabbitmq'),
+                'port' => env('RABBITMQ_PORT', 5672),
+                'user' => env('RABBITMQ_USER', 'user'),
+                'password' => env('RABBITMQ_PASSWORD', 'user'),
+                'vhost' => env('RABBITMQ_VHOST', '/'),
+            ],
+        ],
     ],
 
 ];
