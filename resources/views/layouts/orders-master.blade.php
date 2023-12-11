@@ -72,6 +72,8 @@
 </nav>
 @yield('orders')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 <script src="{{ asset('/js/order.js') }}"></script>
+<script src="{{ asset('/js/phone.js') }}"></script>
 </body>
 </html>

@@ -6,7 +6,6 @@
         <div class="title">
             Оформление заказа
         </div>
-
         <form action="{{ route('add-orders') }}" id="survey-form" method="post">
             @csrf
             @foreach($cartProduct as $elem)
@@ -31,11 +30,15 @@
 
             <div class="label-input">
                 <label id="number-label" for="number">Номер телефона</label>
-                <input id="number" name="phone" type="tel" placeholder="Введите телефон... " class="form-control">
+                <input id="number" name="phone" type="tel" placeholder="(999) 999-99-99" class="form-control">
                 <span id="phone_error" style="color: #4b1010">@error('phone') {{ $message }} @enderror</span>
-
                 <label id="number-label" for="email">E-mail</label>
-                <input id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control">
+                @can('user', auth()->user())
+                    <input style="pointer-events: none; background: #d3f1cf;" tabindex="-1" id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control" value="{{ auth()->user()->email }}" readonly>
+                @endcan
+                @can('guest', auth()->user())
+                    <input id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control">
+                @endcan
                 <span id="email_error" style="color: #4b1010">@error('email') {{ $message }} @enderror</span>
             </div>
 
