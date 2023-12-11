@@ -24,7 +24,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => ['required', 'string', 'min:6', 'max:24'],
+            'phone' => ['required', 'string', 'regex:/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/i'],
             'email' => ['required', 'string', 'email', 'min:6', 'max:24']
         ];
     }
