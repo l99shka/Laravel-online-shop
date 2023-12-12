@@ -63,6 +63,10 @@
     margin-left: 10px;
 }
 
+#textarea:focus {
+    outline: none;
+}
+
 #orderPay-button {
     font-size: 15px;
     font-family: 'Oswald', sans-serif;

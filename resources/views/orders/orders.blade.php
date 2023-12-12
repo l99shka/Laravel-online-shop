@@ -30,13 +30,13 @@
 
             <div class="label-input">
                 <label id="number-label" for="number">Номер телефона</label>
-                <input id="number" name="phone" type="tel" placeholder="(999) 999-99-99" class="form-control">
+                <input id="number" name="phone" type="tel" placeholder="Введите номер телефона..." class="form-control art-stranger">
                 <span id="phone_error" style="color: #4b1010">@error('phone') {{ $message }} @enderror</span>
-                <label id="number-label" for="email">E-mail</label>
                 @can('user', auth()->user())
-                    <input style="pointer-events: none; background: #d3f1cf;" tabindex="-1" id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control" value="{{ auth()->user()->email }}" readonly>
+                    <input style="pointer-events: none; background: #d3f1cf;" tabindex="-1" id="email" name="email" type="email" hidden="hidden" class="form-control" value="{{ auth()->user()->email }}" readonly>
                 @endcan
                 @can('guest', auth()->user())
+                    <label id="number-label" for="email">E-mail</label>
                     <input id="email" name="email" type="email" placeholder="Введите E-mail... " class="form-control">
                 @endcan
                 <span id="email_error" style="color: #4b1010">@error('email') {{ $message }} @enderror</span>
@@ -44,7 +44,6 @@
 
             <p> Оставьте коменнатарий к заказу (Необязательно) </p>
 
-            <label for="textarea"></label>
             <textarea maxlength="500" name="message" id="textarea" cols="15" rows="5" placeholder="Введите комметарий..."></textarea>
 
             <!-- Submit Button -->

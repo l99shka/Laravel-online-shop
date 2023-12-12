@@ -41,7 +41,6 @@ class MessageService
 
         $channel->basic_consume($queue, '', false, true, false, false,
             function ($msg) use ($callback) {
-//            event(new Registered(User::find($msg->id)));
                 call_user_func($callback, $msg->body);
         });
 

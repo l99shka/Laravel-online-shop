@@ -11,7 +11,7 @@
         <input type="email" name="email" value="{{ old('email') }}" placeholder="Введите E-mail">
         <label>Телефон</label>
         <label style="color: #4b1010">@error('phone') {{ $message }} @enderror</label>
-        <input id="number" type="tel" name="phone" placeholder="(999) 999-99-99">
+        <input id="number" class="art-stranger" type="tel" name="phone" placeholder="Введите номер телефона">
         <label>Пароль</label>
         <label style="color: #4b1010">@error('password') {{ $message }} @enderror</label>
         <input type="password" name="password" placeholder="Придумайте пароль">
