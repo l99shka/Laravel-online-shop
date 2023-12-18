@@ -5,7 +5,6 @@ use App\Http\Controllers\EmailVerificationNotificationController;
 use App\Http\Controllers\EmailVerificationPromtController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PublishController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;

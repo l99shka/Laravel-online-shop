@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->references('id')->on('carts');
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('user_id')->references('id')->on('users');
-//            $table->unique(['user_id', 'product_id']);
+            $table->unique(['user_id', 'product_id']);
             $table->integer('quantity')->default(1);
         });
     }

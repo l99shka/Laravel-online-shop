@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('product_id')->references('id')->on('products');
-            $table->foreignId('order_id')->references('id')->on('order');
+            $table->foreignId('order_id')->references('id')->on('orders');
             $table->unique(['order_id', 'product_id']);
             $table->integer('quantity');
             $table->decimal('total_price');

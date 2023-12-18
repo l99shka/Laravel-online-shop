@@ -13,10 +13,10 @@ class CartController extends Controller
 {
     public function cart(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
+        $cart = Cart::where('user_id', Auth::id())->first();
 
-        if ($cart_id) {
-            $products = Cart::findOrFail($cart_id)->products;
+        if ($cart) {
+            $products = $cart->products;
 
             return view('cart-product.cart-product', [
                 'categories' => Category::with('children')->where('parent_id', 0)->get(),
@@ -34,10 +34,11 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
+        $cartName = 'products';
 
-        if ($cart_id && Auth::id()) {
-            $cart = Cart::findOrFail($cart_id);
+        $cart = Cart::where('user_id', Auth::id())->first();
+
+        if (Auth::id() && $cart) {
             // обновляем поле `updated_at` таблицы `carts`
             $cart->touch();
 
@@ -50,26 +51,24 @@ class CartController extends Controller
             }
 
         } else {
-            $user = new User();
-            $user->save();
-            Auth::login($user);
+            if (empty($userId)) {
+                $user = new User();
+                $user->save();
+                Auth::login($user);
+            }
 
-            $cart = Cart::create();
-            $cookieCartId = Cookie::forever('cart_id', $cart->id);
-            $response = response()->json(['success' => true]);
-            $response->headers->setCookie($cookieCartId);
+            $cart = Cart::create([
+                'user_id' => Auth::id(),
+                'name'    => $cartName
+            ]);
 
             $cart->products()->attach($request->id, ['user_id' => Auth::id()]);
-
-            return $response;
         }
     }
 
     public function updateQuantityMinus(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
-
-        $cart = Cart::findOrFail($cart_id);
+        $cart = Cart::where('user_id', Auth::id())->first();
         // обновляем поле `updated_at` таблицы `carts`
         $cart->touch();
 
@@ -83,11 +82,9 @@ class CartController extends Controller
         }
     }
 
-    public static function deleteAll(Request $request)
+    public function deleteAll(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
-
-        $cart = Cart::findOrFail($cart_id);
+        $cart = Cart::where('user_id', Auth::id())->first();
         // обновляем поле `updated_at` таблицы `carts`
         $cart->touch();
 

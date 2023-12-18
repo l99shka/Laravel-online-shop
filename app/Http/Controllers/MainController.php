@@ -12,10 +12,10 @@ class MainController extends Controller
 {
     public function main(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
+        $cart = Cart::where('user_id', Auth::id())->first();
 
-        if ($cart_id) {
-            $products = Cart::findOrFail($cart_id)->products;
+        if ($cart) {
+            $products = $cart->products;
 
             return view('main.index', [
                 'categories'  => Category::with('children')->where('parent_id', 0)->get(),

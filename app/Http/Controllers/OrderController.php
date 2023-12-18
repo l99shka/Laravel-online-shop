@@ -11,7 +11,6 @@ use App\Service\MessageService;
 use App\Service\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use YooKassa\Model\Notification\NotificationEventType;
 use YooKassa\Model\Notification\NotificationSucceeded;
@@ -22,9 +21,10 @@ class OrderController extends Controller
 {
     public function order(Request $request)
     {
-        $cart_id = $request->cookie('cart_id');
+        $cart = Cart::where('user_id', Auth::id())->first();
+        $products = $cart->products;
 
-        if ($cart_id && count($products = Cart::findOrFail($cart_id)->products)) {
+        if ($cart && count($products)) {
 
             return view('order.order', [
                 'categories' => Category::with('children')->where('parent_id', 0)->get(),
@@ -38,6 +38,8 @@ class OrderController extends Controller
     public function add(OrderRequest $request, PaymentService $service)
     {
         $cartCost = 0;
+        $cart = Cart::where('user_id', Auth::id())->first();
+        $products = $cart->products;
 
         DB::beginTransaction();
         try {
@@ -48,9 +50,8 @@ class OrderController extends Controller
                 'email'           => $request->email
             ]);
 
-            $cart_id = $request->cookie('cart_id');
 
-            if ($cart_id && count($products = Cart::findOrFail($cart_id)->products)) {
+            if ($cart && count($products)) {
 
                 foreach ($products as $product) {
                     $itemPrice = $product->price;
@@ -104,8 +105,8 @@ class OrderController extends Controller
 
             if(isset($metadata->user_id)) {
 
-//                $userId = $metadata->user_id;
-                Cookie::forget('cart_id');
+                $userId = $metadata->user_id;
+                Cart::where('user_id', $userId)->delete();
 
             }
             if ($payment->paid === true) {
