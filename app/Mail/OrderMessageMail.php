@@ -43,7 +43,7 @@ class OrderMessageMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'mail.orders-message',
+            markdown: 'mail.order-message',
         );
     }
 

@@ -23,95 +23,87 @@ $('.add-button').click(function(e) {
 });
 
 
-$(document).ready(function () {
-    $('.minus-btn').on('click', function() {
-        refreshPage()
+$('.minus-btn').on('click', function(e) {
+    e.preventDefault()
 
-        var id = this.dataset.id;
+    var id = this.dataset.id;
 
-        $.ajax({
+    $.ajax({
 
-            url: '/updateQuantityMinus',
-            type: "POST",
-            data: {
-                id: id,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: (data) => {
-                console.log(data)
-            },
-            error: (data) => {
-                console.log(data)
-            }
+        url: '/updateQuantityMinus',
+        type: "POST",
+        datatype: 'json',
+        data: {
+            id: id,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            console.log(data)
 
-        });
-        function refreshPage(){
             window.location.reload();
+            },
+        error: (data) => {
+            console.log(data)
         }
+
     });
-})
-
-
-$(document).ready(function () {
-    $('.plus-btn').on('click', function() {
-        refreshPage()
-
-        var id = this.dataset.id;
-
-        $.ajax({
-
-            url: '/updateQuantityPlus',
-            type: "POST",
-            data: {
-                id: id,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: (data) => {
-                console.log(data)
-            },
-            error: (data) => {
-                console.log(data)
-            }
-
-        });
-        function refreshPage(){
-            window.location.reload();
-        }
-    });
-
 });
 
-$(document).ready(function () {
-    $('.delete-btn').on('click', function() {
-        refreshPage()
 
-        var id = this.dataset.id;
+$('.plus-btn').on('click', function(e) {
+    e.preventDefault()
 
-        $.ajax({
+    var id = this.dataset.id;
 
-            url: '/deleteToCartProduct',
-            type: "POST",
-            data: {
-                id: id,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: (data) => {
-                console.log(data)
-            },
-            error: (data) => {
-                console.log(data)
-            }
+    $.ajax({
 
-        });
-        function refreshPage(){
+        url: '/addToCartProduct',
+        type: "POST",
+        datatype: 'json',
+        data: {
+            id: id,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            console.log(data)
+
             window.location.reload();
+            },
+        error: (data) => {
+            console.log(data)
+        }
+
+    });
+});
+
+
+$('.delete-btn').on('click', function(e) {
+    e.preventDefault()
+
+    var id = this.dataset.id;
+
+    $.ajax({
+
+        url: '/deleteAll',
+        type: "POST",
+        data: {
+            id: id,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            console.log(data)
+
+            window.location.reload();
+        },
+        error: (data) => {
+            console.log(data)
         }
     });
-})
+});
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\EmailVerificationNotificationController;
 use App\Http\Controllers\EmailVerificationPromtController;
 use App\Http\Controllers\MainController;
@@ -62,26 +62,24 @@ Route::get('/category/{id}', [MainController::class, 'category'])
     ->name('category');
 
 
-Route::get('/cartProduct', [CartProductController::class, 'cartProduct'])
+Route::get('/cart', [CartController::class, 'cart'])
     ->middleware('auth')
-    ->name('cartProduct');
-Route::post('/addToCartProduct', [CartProductController::class, 'addToCartProduct'])
+    ->name('cart');
+Route::post('/addToCartProduct', [CartController::class, 'add'])
     ->name('addToCartProduct');
-Route::post('/updateQuantityPlus', [CartProductController::class, 'updateQuantityPlus'])
+Route::post('/updateQuantityMinus', [CartController::class, 'updateQuantityMinus'])
     ->middleware('auth');
-Route::post('/updateQuantityMinus', [CartProductController::class, 'updateQuantityMinus'])
-    ->middleware('auth');
-Route::post('/deleteToCartProduct', [CartProductController::class, 'deleteToCartProduct'])
+Route::post('/deleteAll', [CartController::class, 'deleteAll'])
     ->middleware('auth');
 
 
-Route::get('/orders', [OrderController::class, 'order'])
+Route::get('/order', [OrderController::class, 'order'])
     ->middleware('auth')
-    ->name('orders');
-Route::post('/add-orders', [OrderController::class, 'addOrders'])
+    ->name('order');
+Route::post('/addOrder', [OrderController::class, 'add'])
     ->middleware('auth')
-    ->name('add-orders');
-Route::post('/orders/pay/callback', [OrderController::class, 'callbackPay'])
+    ->name('addOrder');
+Route::post('/order/pay/callback', [OrderController::class, 'callbackPay'])
     ->name('callback');
 
 

@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Orders\OrderRequest;
-use App\Models\CartProduct;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderPosition;
 use App\Service\MessageService;
 use App\Service\PaymentService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use YooKassa\Model\Notification\NotificationEventType;
 use YooKassa\Model\Notification\NotificationSucceeded;
@@ -18,37 +20,24 @@ use YooKassa\Model\Notification\NotificationWaitingForCapture;
 
 class OrderController extends Controller
 {
-    public function order()
+    public function order(Request $request)
     {
-        $cartProduct = DB::table('products')
-            ->join('cart_products', 'cart_products.product_id', '=', 'products.id')
-            ->select('cart_products.id', 'products.image', 'products.name', 'products.description', 'cart_products.quantity', DB::raw('products.price*cart_products.quantity as price'))
-            ->where('cart_products.user_id', '=', Auth::id())
-            ->get();
+        $cart_id = $request->cookie('cart_id');
 
-        $sumTotalPrice = $cartProduct->sum('price');
+        if ($cart_id && count($products = Cart::findOrFail($cart_id)->products)) {
 
-        if ($cartProduct->isEmpty()) {
-            return redirect()->back();
-        } else {
-            return view('orders.orders', [
+            return view('order.order', [
                 'categories' => Category::with('children')->where('parent_id', 0)->get(),
-                'cartProduct' => $cartProduct,
-                'sumQuantity' => CartProduct::where('user_id', Auth::id())->sum('quantity'),
-                'sumTotalPrice' => $sumTotalPrice
+                'products' => $products,
+                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
             ]);
         }
+        return redirect()->back();
     }
 
-    public function addOrders(OrderRequest $request, PaymentService $service)
+    public function add(OrderRequest $request, PaymentService $service)
     {
-        $products = DB::table('products')
-            ->join('cart_products', 'cart_products.product_id', '=', 'products.id')
-            ->select(DB::raw('products.price*cart_products.quantity as price'), 'cart_products.product_id', 'cart_products.quantity')
-            ->where('cart_products.user_id', '=', Auth::id())
-            ->get();
-
-        $amount = $products->sum('price');
+        $cartCost = 0;
 
         DB::beginTransaction();
         try {
@@ -59,16 +48,25 @@ class OrderController extends Controller
                 'email'           => $request->email
             ]);
 
-            foreach ($products as $item) {
+            $cart_id = $request->cookie('cart_id');
 
-                $orderPosition = new OrderPosition();
+            if ($cart_id && count($products = Cart::findOrFail($cart_id)->products)) {
 
-                $orderPosition->product_id = $item->product_id;
-                $orderPosition->quantity = $item->quantity;
-                $orderPosition->total_price = $item->price;
-                $orderPosition->order_id = $order->id;
+                foreach ($products as $product) {
+                    $itemPrice = $product->price;
+                    $itemQuantity =  $product->pivot->quantity;
+                    $itemCost = $itemPrice * $itemQuantity;
+                    $cartCost = $cartCost + $itemCost;
 
-                $orderPosition->save();
+                    $orderPosition = new OrderPosition();
+
+                    $orderPosition->product_id = $product->pivot->product_id;
+                    $orderPosition->quantity = $itemQuantity;
+                    $orderPosition->total_price = $itemCost;
+                    $orderPosition->order_id = $order->id;
+
+                    $orderPosition->save();
+                }
             }
 
             DB::commit();
@@ -77,7 +75,7 @@ class OrderController extends Controller
             return response()->json(['alert' => 'Повторите попытку']);
         }
 
-        $link = $service->createPayment($amount, [
+        $link = $service->createPayment($cartCost, [
             'order_id' => $order->id,
             'user_id'  => Auth::id(),
             'email'    => $order->email
@@ -106,8 +104,9 @@ class OrderController extends Controller
 
             if(isset($metadata->user_id)) {
 
-                $userId = $metadata->user_id;
-                CartProduct::where('user_id', $userId)->delete();
+//                $userId = $metadata->user_id;
+                Cookie::forget('cart_id');
+
             }
             if ($payment->paid === true) {
 

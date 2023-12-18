@@ -14,8 +14,7 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ route('category', $category->id) }}"
-                               class="children">&#10148;{{ $category->name }}</a>
+                            <a href="{{ route('category', $category->id) }}" class="children">&#10148;{{ $category->name }}</a>
                         </li>
                     </ul>
                     @if(!empty($category->children))

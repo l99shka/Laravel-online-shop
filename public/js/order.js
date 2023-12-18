@@ -5,7 +5,7 @@ $(document).on('click', '#orderPay-button', function(e) {
 
         $.ajax({
 
-            url: '/add-orders',
+            url: '/addOrder',
             type: "POST",
             datatype: 'json',
             data: formData,
