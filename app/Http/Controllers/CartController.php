@@ -7,11 +7,10 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 
 class CartController extends Controller
 {
-    public function cart(Request $request)
+    public function cart()
     {
         $cart = Cart::where('user_id', Auth::id())->first();
 

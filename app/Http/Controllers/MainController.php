@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
-    public function main(Request $request)
+    public function main()
     {
         $cart = Cart::where('user_id', Auth::id())->first();
 
@@ -31,12 +31,12 @@ class MainController extends Controller
         ]);
     }
 
-    public function catalog(Request $request)
+    public function catalog()
     {
-        $cart_id = $request->cookie('cart_id');
+        $cart = Cart::where('user_id', Auth::id())->first();
 
-        if ($cart_id) {
-            $products = Cart::findOrFail($cart_id)->products;
+        if ($cart) {
+            $products = $cart->products;
 
             return view('main.catalog', [
                 'categories'  => Category::with('children')->where('parent_id', 0)->get(),
@@ -52,12 +52,12 @@ class MainController extends Controller
         ]);
     }
 
-    public function category(Request $request, $id)
+    public function category($id)
     {
-        $cart_id = $request->cookie('cart_id');
+        $cart = Cart::where('user_id', Auth::id())->first();
 
-        if ($cart_id) {
-            $products = Cart::findOrFail($cart_id)->products;
+        if ($cart) {
+            $products = $cart->products;
 
             return view('main.category', [
                 'products'           => Product::where('category_id', $id)->get(),
