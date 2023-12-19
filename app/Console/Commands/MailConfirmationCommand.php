@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Service\MessageService;
+use App\Service\Message\MessageService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 

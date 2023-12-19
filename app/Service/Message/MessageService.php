@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Message;
 
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 

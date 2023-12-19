@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Service\MessageService;
-use App\Service\PaymentService;
+use App\Service\Message\MessageService;
+use App\Service\Payment\PaymentService;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\ServiceProvider;

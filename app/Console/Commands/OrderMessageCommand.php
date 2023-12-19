@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\OrderMessageMail;
-use App\Service\MessageService;
+use App\Service\Message\MessageService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
