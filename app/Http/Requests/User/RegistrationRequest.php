@@ -24,10 +24,10 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_name' => ['required', 'string', 'min:6', 'max:24'],
-            'email' => ['required', 'string', 'email', 'unique:users', 'min:6', 'max:24'],
-            'phone' => ['required', 'string', 'regex:/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/i', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed' , 'min:8', 'max:24'],
+            'full_name'             => ['required', 'string', 'min:6', 'max:24'],
+            'email'                 => ['required', 'string', 'email', 'unique:users', 'min:6', 'max:24'],
+            'phone'                 => ['required', 'string', 'regex:/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/i', 'unique:users'],
+            'password'              => ['required', 'string', 'confirmed', 'min:8', 'max:24'],
             'password_confirmation' => ['required']
         ];
     }

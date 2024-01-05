@@ -1,6 +1,6 @@
 $('.art-stranger').mask('+7 (999) 999-99-99');
 
-$.fn.setCursorPosition = function(pos) {
+$.fn.setCursorPosition = function (pos) {
     if ($(this).get(0).setSelectionRange) {
         $(this).get(0).setSelectionRange(pos, pos);
     } else if ($(this).get(0).createTextRange) {
@@ -13,6 +13,6 @@ $.fn.setCursorPosition = function(pos) {
 };
 
 
-$('input[type="tel"]').click(function(){
+$('input[type="tel"]').click(function () {
     $(this).setCursorPosition(4);  // set position number
 });

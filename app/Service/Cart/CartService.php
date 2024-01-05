@@ -19,21 +19,9 @@ class CartService
     }
     public function cart($cart): View
     {
-        if ($cart) {
-            $products = $cart->products;
-
             return view('cart-product.cart-product', [
-                'categories' => Category::with('children')->where('parent_id', 0)->get(),
-                'products' => $products,
-                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
+                'products'   => $cart->products,
             ]);
-        }
-
-        return view('cart-product.cart-product', [
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'products' => [],
-            'sumQuantity' => 0
-        ]);
     }
 
     public function add($cart, string $cartName): void

@@ -1,7 +1,6 @@
-@extends('layouts.order-master')
+@extends('layouts.main-master')
 @section('title', 'Оформление заказа')
-@section('order')
-
+@section('content')
     <div class="container">
         <div class="title">
             Оформление заказа
@@ -13,10 +12,10 @@
             @endphp
             @foreach($products as $product)
                 @php
-                    $itemPrice = $product->price;
+                    $itemPrice    = $product->price;
                     $itemQuantity =  $product->pivot->quantity;
-                    $itemCost = $itemPrice * $itemQuantity;
-                    $cartCost = $cartCost + $itemCost;
+                    $itemCost     = $itemPrice * $itemQuantity;
+                    $cartCost     = $cartCost + $itemCost;
                 @endphp
                 <div class="item">
 
@@ -65,5 +64,4 @@
             </button>
         </form>
     </div>
-
 @endsection

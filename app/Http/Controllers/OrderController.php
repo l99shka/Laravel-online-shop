@@ -23,6 +23,7 @@ class OrderController extends Controller
     {
         $this->service = $service;
     }
+
     public function order(): View|Factory|Application|RedirectResponse
     {
         $cart = Cart::where('user_id', Auth::id())->first();

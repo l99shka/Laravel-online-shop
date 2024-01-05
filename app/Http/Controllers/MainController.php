@@ -11,68 +11,31 @@ class MainController extends Controller
 {
     public function main()
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-
-        if ($cart) {
-            $products = $cart->products;
-
-            return view('main.index', [
-                'categories'  => Category::with('children')->where('parent_id', 0)->get(),
-                'products'    => Product::get(),
-                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
-            ]);
-        }
-
         return view('main.index', [
-            'categories'  => Category::with('children')->where('parent_id', 0)->get(),
-            'products'    => Product::get(),
-            'sumQuantity' => 0
+            'products'   => Product::get(),
         ]);
     }
 
     public function catalog()
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-
-        if ($cart) {
-            $products = $cart->products;
-
-            return view('main.catalog', [
-                'categories'  => Category::with('children')->where('parent_id', 0)->get(),
-                'products'    => Product::get(),
-                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
-            ]);
-        }
-
         return view('main.catalog', [
-            'categories'  => Category::with('children')->where('parent_id', 0)->get(),
-            'products'    => Product::get(),
-            'sumQuantity' => 0
+            'categories' => Category::whereIsRoot()->get()
         ]);
     }
 
     public function category($id)
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
+        Category::fixTree();
+        $category = Category::find($id);
+        $categories = $category->descendants()->pluck('id');
+        $categories[] = $category->getKey();
 
-        if ($cart) {
-            $products = $cart->products;
-
-            return view('main.category', [
-                'products'           => Product::where('category_id', $id)->get(),
-                'categories'         => Category::with('children')->where('parent_id', 0)->get(),
-                'categoriesChildren' => Category::with('children')->where('parent_id', $id)->get(),
-                'categoriesParent'   => Category::where('id', $id)->get(),
-                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
-            ]);
-        }
+        $products = Product::whereIn('category_id', $categories)->get();
 
         return view('main.category', [
-            'products'           => Product::where('category_id', $id)->get(),
-            'categories'         => Category::with('children')->where('parent_id', 0)->get(),
-            'categoriesChildren' => Category::with('children')->where('parent_id', $id)->get(),
+            'products'           => $products,
+            'categoriesChildren' => Category::descendantsOf($id),
             'categoriesParent'   => Category::where('id', $id)->get(),
-            'sumQuantity' => 0
         ]);
     }
 }

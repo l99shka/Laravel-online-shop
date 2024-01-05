@@ -194,7 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\CartServiceProvider::class,
+        App\Providers\CategoryServiceProvider::class
     ],
 
     /*

@@ -22,11 +22,11 @@ class UserController extends Controller
     public function create(RegistrationRequest $request, MessageService $service)
     {
         $user = User::create([
-            'full_name' => $request->full_name,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'password'  => Hash::make($request->password),
-            'role'      => 'user'
+                'full_name' => $request->full_name,
+                'email'     => $request->email,
+                'phone'     => $request->phone,
+                'password'  => Hash::make($request->password),
+                'role'      => 'user'
             ]
         );
 

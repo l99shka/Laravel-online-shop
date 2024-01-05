@@ -15,6 +15,7 @@ class CartController extends Controller
     {
         $this->service = $service;
     }
+
     public function cart(): View
     {
         $cart = Cart::where('user_id', Auth::id())->first();

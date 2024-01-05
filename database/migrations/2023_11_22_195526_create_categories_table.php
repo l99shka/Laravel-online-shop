@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('parent_id')->default('0');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
+            $table->unsignedInteger('_lft')->nullable();
+            $table->unsignedInteger('_rgt')->nullable();
         });
     }
 

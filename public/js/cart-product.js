@@ -1,4 +1,4 @@
-$('.add-button').click(function(e) {
+$('.add-button').click(function (e) {
     e.preventDefault()
 
     var id = this.dataset.id;
@@ -23,7 +23,7 @@ $('.add-button').click(function(e) {
 });
 
 
-$('.minus-btn').on('click', function(e) {
+$('.minus-btn').on('click', function (e) {
     e.preventDefault()
 
     var id = this.dataset.id;
@@ -43,7 +43,7 @@ $('.minus-btn').on('click', function(e) {
             console.log(data)
 
             window.location.reload();
-            },
+        },
         error: (data) => {
             console.log(data)
         }
@@ -52,7 +52,7 @@ $('.minus-btn').on('click', function(e) {
 });
 
 
-$('.plus-btn').on('click', function(e) {
+$('.plus-btn').on('click', function (e) {
     e.preventDefault()
 
     var id = this.dataset.id;
@@ -72,7 +72,7 @@ $('.plus-btn').on('click', function(e) {
             console.log(data)
 
             window.location.reload();
-            },
+        },
         error: (data) => {
             console.log(data)
         }
@@ -81,7 +81,7 @@ $('.plus-btn').on('click', function(e) {
 });
 
 
-$('.delete-btn').on('click', function(e) {
+$('.delete-btn').on('click', function (e) {
     e.preventDefault()
 
     var id = this.dataset.id;

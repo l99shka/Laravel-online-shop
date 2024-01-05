@@ -1,7 +1,6 @@
-@extends('layouts.cart-product-master')
+@extends('layouts.main-master')
 @section('title', 'Корзина')
-@section('cart-product')
-
+@section('content')
     <div class="shopping-cart">
         <div class="title">
             Ваша корзина
@@ -12,10 +11,10 @@
             @endphp
         @foreach($products as $product)
             @php
-                $itemPrice = $product->price;
+                $itemPrice    = $product->price;
                 $itemQuantity =  $product->pivot->quantity;
-                $itemCost = $itemPrice * $itemQuantity;
-                $cartCost = $cartCost + $itemCost;
+                $itemCost     = $itemPrice * $itemQuantity;
+                $cartCost     = $cartCost + $itemCost;
             @endphp
             <div class="item">
                 <div class="buttons">
@@ -47,10 +46,9 @@
 
         <a href="{{ route('order') }}" class="order-button"> Оформить заказ <br> На сумму - {{ number_format($cartCost, 2, ',', ' ') }} руб.</a>
         @else
-            <p>
+            <p class="empty-cart">
                 Ваша корзина пуста!
             </p>
         @endif
     </div>
-
 @endsection

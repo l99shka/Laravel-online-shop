@@ -10,6 +10,7 @@ class Order extends Model
 {
     use HasFactory;
     use AuthenticableTrait;
+
     protected $guarded = [];
 
     public const PAID = 'PAID';

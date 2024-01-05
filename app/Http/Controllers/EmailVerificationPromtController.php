@@ -13,7 +13,7 @@ class EmailVerificationPromtController extends Controller
     public function __invoke(Request $request): View|Factory|RedirectResponse|Application
     {
         return ($request->user()->hasVerifiedEmail())
-        ? redirect()->back()
-        : view('auth.verify-email');
+            ? redirect()->back()
+            : view('auth.verify-email');
     }
 }

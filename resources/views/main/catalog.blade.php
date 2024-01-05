@@ -1,9 +1,6 @@
 @extends('layouts.main-master')
 @section('title', 'Каталог')
-
-
 @section('content')
-
     <header class="home-cards">
         @foreach($categories as $category)
             <div class="categories">

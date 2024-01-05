@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Category extends Model
 {
     use HasFactory;
+    use NodeTrait;
 
-    public function children()
+    public static function getAll(): Collection|array
     {
-        return $this->hasMany(self::class, 'parent_id');
-    }
-
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'category_id', 'id');
+       return self::all()->toTree();
     }
 }

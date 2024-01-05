@@ -10,5 +10,6 @@ class OrderPosition extends Model
 {
     use HasFactory;
     use AuthenticableTrait;
+
     protected $guarded = [];
 }

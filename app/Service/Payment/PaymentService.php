@@ -102,14 +102,13 @@ class PaymentService
 
                 $userId = $metadata->user_id;
                 Cart::where('user_id', $userId)->delete();
-
             }
             if ($payment->paid === true) {
 
                 if(isset($metadata->order_id)) {
 
-                    $orderId = $metadata->order_id;
-                    $order = Order::find($orderId);
+                    $orderId       = $metadata->order_id;
+                    $order         = Order::find($orderId);
                     $order->status = Order::PAID;
                     $order->save();
                 }
@@ -118,7 +117,7 @@ class PaymentService
 
                     $email = $metadata->email;
                     $queue = 'OrderMessage';
-                    $data = [
+                    $data  = [
                         'email' => $email
                     ];
                     $message->publish($queue, $data);

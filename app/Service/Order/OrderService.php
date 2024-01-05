@@ -19,18 +19,14 @@ class OrderService
 {
     public function order($cart): View|Factory|Application|RedirectResponse
     {
-        $products = $cart->products;
-
-        if ($cart && count($products)) {
-
+        if ($cart && count($cart->products)) {
             return view('order.order', [
-                'categories' => Category::with('children')->where('parent_id', 0)->get(),
-                'products' => $products,
-                'sumQuantity' => $products->where('pivot.user_id', Auth::id())->sum('pivot.quantity')
+                'products'   => $cart->products
             ]);
         }
         return redirect()->back();
     }
+
     public function add($cart, PaymentService $service, OrderRequest $request): JsonResponse|string
     {
         $products = $cart->products;
@@ -39,27 +35,27 @@ class OrderService
         DB::beginTransaction();
         try {
             $order = Order::create([
-                'user_id'         => Auth::id(),
-                'comment'         => $request->message,
-                'contact_phone'   => $request->phone,
-                'email'           => $request->email
+                'user_id'       => Auth::id(),
+                'comment'       => $request->message,
+                'contact_phone' => $request->phone,
+                'email'         => $request->email
             ]);
 
 
             if ($cart && count($products)) {
 
                 foreach ($products as $product) {
-                    $itemPrice = $product->price;
-                    $itemQuantity =  $product->pivot->quantity;
-                    $itemCost = $itemPrice * $itemQuantity;
-                    $cartCost = $cartCost + $itemCost;
+                    $itemPrice    = $product->price;
+                    $itemQuantity = $product->pivot->quantity;
+                    $itemCost     = $itemPrice * $itemQuantity;
+                    $cartCost     = $cartCost + $itemCost;
 
                     $orderPosition = new OrderPosition();
 
-                    $orderPosition->product_id = $product->pivot->product_id;
-                    $orderPosition->quantity = $itemQuantity;
+                    $orderPosition->product_id  = $product->pivot->product_id;
+                    $orderPosition->quantity    = $itemQuantity;
                     $orderPosition->total_price = $itemCost;
-                    $orderPosition->order_id = $order->id;
+                    $orderPosition->order_id    = $order->id;
 
                     $orderPosition->save();
                 }
