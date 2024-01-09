@@ -33,9 +33,9 @@ class MainController extends Controller
         $products = Product::whereIn('category_id', $categories)->get();
 
         return view('main.category', [
-            'products'           => $products,
-            'categoriesChildren' => Category::descendantsOf($id),
             'categoriesParent'   => Category::where('id', $id)->get(),
+            'categoriesChildren' => Category::descendantsOf($id),
+            'products'           => $products,
         ]);
     }
 }

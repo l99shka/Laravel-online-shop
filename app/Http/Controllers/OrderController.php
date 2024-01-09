@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Order\OrderRequest;
 use App\Models\Cart;
+use App\Service\Cart\CartService;
 use App\Service\Message\MessageService;
 use App\Service\Order\OrderService;
 use App\Service\Payment\PaymentService;
@@ -24,16 +25,22 @@ class OrderController extends Controller
         $this->service = $service;
     }
 
-    public function order(): View|Factory|Application|RedirectResponse
+    public function order(CartService $cartService): View|Factory|Application|RedirectResponse
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-        return $this->service->order($cart);
+        $cart = $cartService->getCart();
+
+        if (count($cart->products)) {
+            return view('order.order', [
+                'products'   => $cart->products
+            ]);
+        }
+        return redirect()->back();
     }
 
-    public function add(PaymentService $service, OrderRequest $request): JsonResponse
+    public function add(CartService $cartService, PaymentService $paymentService, OrderRequest $request): JsonResponse
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-        $link = $this->service->add($cart, $service, $request);
+        $cart = $cartService->getCart();
+        $link = $this->service->add($cart, $paymentService, $request);
 
         return response()->json(['link' => $link]);
     }

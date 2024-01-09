@@ -3,31 +3,17 @@
 namespace App\Service\Order;
 
 use App\Http\Requests\Order\OrderRequest;
-use App\Models\Category;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderPosition;
 use App\Service\Payment\PaymentService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
-    public function order($cart): View|Factory|Application|RedirectResponse
-    {
-        if ($cart && count($cart->products)) {
-            return view('order.order', [
-                'products'   => $cart->products
-            ]);
-        }
-        return redirect()->back();
-    }
-
-    public function add($cart, PaymentService $service, OrderRequest $request): JsonResponse|string
+    public function add(Cart $cart, PaymentService $service, OrderRequest $request): JsonResponse|string
     {
         $products = $cart->products;
         $cartCost = 0;

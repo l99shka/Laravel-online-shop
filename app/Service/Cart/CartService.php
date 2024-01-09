@@ -3,64 +3,51 @@
 namespace App\Service\Cart;
 
 use App\Models\Cart;
-use App\Models\Category;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class CartService
 {
-    private Request $request;
+    public function getCart(): Cart
+    {
+        $cart = Cart::where('user_id', Auth::id())->first();
+        $cartName = 'products';
 
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-    public function cart($cart): View
-    {
-            return view('cart-product.cart-product', [
-                'products'   => $cart->products,
-            ]);
-    }
-
-    public function add($cart, string $cartName): void
-    {
         if (Auth::id() && $cart) {
             // обновляем поле `updated_at` таблицы `carts`
             $cart->touch();
-
-            if ($cart->products->contains($this->request->id)) {
-                $pivotRow = $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $this->request->id])->first()->pivot;
-                $pivotRow->quantity++;
-                $pivotRow->update();
-            } else {
-                $cart->products()->attach($this->request->id, ['user_id' => Auth::id()]);
-            }
-
         } else {
-            if (empty(Auth::id())) {
-                $user = new User();
-                $user->save();
-                Auth::login($user);
-            }
+            $user = new User();
+            $user->save();
+            Auth::login($user);
 
-            $cart = Cart::create([
+            return Cart::create([
                 'user_id' => Auth::id(),
                 'name'    => $cartName
             ]);
+        }
+        return $cart;
+    }
 
-            $cart->products()->attach($this->request->id, ['user_id' => Auth::id()]);
+    public function add(int $productId): void
+    {
+        $cart = $this->getCart();
+
+        if ($cart->products->contains($productId)) {
+            $pivotRow = $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $productId])->first()->pivot;
+            $pivotRow->quantity++;
+            $pivotRow->update();
+        } else {
+            $cart->products()->attach($productId, ['user_id' => Auth::id()]);
         }
     }
 
-    public function updateQuantityMinus($cart): void
+    public function updateQuantityMinus(int $productId): void
     {
-        // обновляем поле `updated_at` таблицы `carts`
-        $cart->touch();
+        $cart = $this->getCart();
 
-        if ($cart->products->contains($this->request->id)) {
-            $pivotRow = $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $this->request->id])->first()->pivot;
+        if ($cart->products->contains($productId)) {
+            $pivotRow = $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $productId])->first()->pivot;
 
             if ($pivotRow->quantity > 1) {
                 $pivotRow->quantity--;
@@ -69,14 +56,13 @@ class CartService
         }
     }
 
-    public function deletAll($cart): void
+    public function deleteAll(int $productId): void
     {
-        // обновляем поле `updated_at` таблицы `carts`
-        $cart->touch();
+        $cart = $this->getCart();
 
-        if ($cart->products->contains($this->request->id)) {
-            $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $this->request->id])->first()->pivot;
-            $cart->products()->detach($this->request->id, ['user_id' => Auth::id()]);
+        if ($cart->products->contains($productId)) {
+            $cart->products()->where(['user_id' => Auth::id(), 'product_id' => $productId])->first()->pivot;
+            $cart->products()->detach($productId, ['user_id' => Auth::id()]);
         }
     }
 }

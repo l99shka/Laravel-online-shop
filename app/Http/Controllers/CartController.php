@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Service\Cart\CartService;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -18,26 +17,25 @@ class CartController extends Controller
 
     public function cart(): View
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-        return $this->service->cart($cart);
+        $cart = $this->service->getCart();
+
+        return view('cart-product.cart-product', [
+            'products'   => $cart->products,
+        ]);
     }
 
-    public function add(): void
+    public function add(Request $request): void
     {
-        $cartName = 'products';
-        $cart = Cart::where('user_id', Auth::id())->first();
-        $this->service->add($cart, $cartName);
+        $this->service->add($request->id);
     }
 
-    public function updateQuantityMinus(): void
+    public function updateQuantityMinus(Request $request): void
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-        $this->service->updateQuantityMinus($cart);
+        $this->service->updateQuantityMinus($request->id);
     }
 
-    public function deleteAll(): void
+    public function deleteAll(Request $request): void
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
-        $this->service->deletAll($cart);
+        $this->service->deleteAll($request->id);
     }
 }
