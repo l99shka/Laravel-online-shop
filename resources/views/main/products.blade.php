@@ -1,6 +1,6 @@
-<div class="product-card">
+<div class="product-card" id="product-card">
     @foreach($products as $product)
-        <div class="product-item">
+        <div class="product-item" id="product-item">
             <img src="{{ $product->image }}">
             <div class="product-list">
                 <h3>{{ $product->name }}</h3>

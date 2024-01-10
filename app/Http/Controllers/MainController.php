@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function main()
     {
         return view('main.index', [
-            'products'   => Product::get(),
+            'products'   => Product::paginate(5),
         ]);
     }
 
@@ -30,12 +29,19 @@ class MainController extends Controller
         $categories = $category->descendants()->pluck('id');
         $categories[] = $category->getKey();
 
-        $products = Product::whereIn('category_id', $categories)->get();
+        $products = Product::whereIn('category_id', $categories)->paginate(2);
 
         return view('main.category', [
             'categoriesParent'   => Category::where('id', $id)->get(),
             'categoriesChildren' => Category::descendantsOf($id),
             'products'           => $products,
         ]);
+    }
+
+    public function loadMoreProducts(Request $request)
+    {
+        $nextProducts = Product::paginate(5, ['*'], 'page', $request->page);
+
+        return response()->json($nextProducts);
     }
 }

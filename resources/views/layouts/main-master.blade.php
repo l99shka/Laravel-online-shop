@@ -6,6 +6,7 @@
     <link href="{{ asset('/css/catalog.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/cart-product.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/order.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/pagination.css') }}" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -81,9 +82,10 @@
 @yield('content')
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="{{ asset('/js/cart-product.js') }}"></script>
+<script src="{{ asset('/js/cart-product.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/js/maska-nomera.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/js/order.js') }}"></script>
-<script src="{{ asset('/js/phone.js') }}"></script>
+<script src="{{ asset('/js/order.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/phone.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/pagination.js') }}" type="text/javascript"></script>
 </body>
 </html>

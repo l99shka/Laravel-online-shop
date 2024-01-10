@@ -1,0 +1,23 @@
+/* Кнопка */
+.showmore-bottom {
+    text-align: center;
+}
+.showmore-bottom button {
+    padding: 20px 30px;
+    display: inline-block;
+    border: 1px solid #3f2aff;
+    border-radius: 100px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #3f2aff;
+    text-decoration: none;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.showmore-bottom button:hover {
+    background: #627bf8;
+}

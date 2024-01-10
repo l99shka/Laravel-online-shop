@@ -1,4 +1,18 @@
-$('.add-button').click(function (e) {
+async function elementUpdate(selector) {
+    try {
+        var html = await (await fetch(location.href)).text();
+        var newdoc = new DOMParser().parseFromString(html, 'text/html');
+        document.querySelector(selector).outerHTML = newdoc.querySelector(selector).outerHTML;
+        console.log('Элемент '+selector+' был успешно обновлен');
+        return true;
+    } catch(err) {
+        console.log('При обновлении элемента '+selector+' произошла ошибка:');
+        console.dir(err);
+        return false;
+    }
+}
+
+$('#product-card').on('click', '.add-button' ,function (e) {
     e.preventDefault()
 
     var id = this.dataset.id;
@@ -17,7 +31,7 @@ $('.add-button').click(function (e) {
         success: (data) => {
             console.log(data);
 
-            window.location.reload();
+            elementUpdate('span#icon')
         }
     });
 });
