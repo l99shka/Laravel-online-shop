@@ -30,6 +30,10 @@
     </header>
     @include('main.products')
     <div class="showmore-bottom" id="showmore-bottom">
-        <button id="showmore-button-category" data-id="{{ $currentCategoryId }}">Показать еще</button>
+        @if (!$hasMoreProducts)
+            <button id="showmore-button-category" data-id="{{ $currentCategoryId }}" style="display: none;">Показать еще</button>
+        @else
+            <button id="showmore-button-category" data-id="{{ $currentCategoryId }}">Показать еще</button>
+        @endif
     </div>
 @endsection
