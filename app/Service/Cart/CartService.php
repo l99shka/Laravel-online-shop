@@ -10,12 +10,17 @@ class CartService
 {
     public function getCart(): Cart
     {
-        $cart = Cart::where('user_id', Auth::id())->first();
         $cartName = 'products';
 
-        if (Auth::id() && $cart) {
-            // обновляем поле `updated_at` таблицы `carts`
-            $cart->touch();
+        if (Auth::id()) {
+            $cart = Cart::where('user_id', Auth::id())->first();
+            if ($cart) {
+                return $cart;
+            }
+            return Cart::create([
+                'user_id' => Auth::id(),
+                'name'    => $cartName
+            ]);
         } else {
             $user = new User();
             $user->save();
@@ -26,7 +31,6 @@ class CartService
                 'name'    => $cartName
             ]);
         }
-        return $cart;
     }
 
     public function add(int $productId): void

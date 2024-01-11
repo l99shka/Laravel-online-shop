@@ -59,8 +59,6 @@ Route::get('/catalog', [MainController::class, 'catalog'])
     ->name('catalog');
 Route::get('/category/{id}', [MainController::class, 'category'])
     ->name('category');
-Route::get('/loadmoreproducts', [MainController::class, 'loadMoreProducts'])
-    ->name('loadmoreproducts');
 
 
 Route::get('/cart', [CartController::class, 'cart'])

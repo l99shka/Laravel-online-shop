@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function main()
+    public function main(Request $request)
     {
+        $products = Product::paginate(5);
+
+        if ($request->ajax()) {
+            $view = view('main.products', compact('products'))->render();
+
+            return response()->json(['html' => $view]);
+        }
+
         return view('main.index', [
-            'products'   => Product::paginate(5),
+            'products'   => $products,
         ]);
     }
 
@@ -22,26 +30,31 @@ class MainController extends Controller
         ]);
     }
 
-    public function category($id)
+    public function category(int $id, Request $request)
     {
         Category::fixTree();
         $category = Category::find($id);
         $categories = $category->descendants()->pluck('id');
         $categories[] = $category->getKey();
 
-        $products = Product::whereIn('category_id', $categories)->paginate(2);
+        $products = Product::whereIn('category_id', $categories)->paginate(5);
+
+        if ($request->ajax()) {
+            $view = view('main.products', [
+                'categoriesParent'   => Category::where('id', $id)->get(),
+                'categoriesChildren' => Category::descendantsOf($id),
+                'products'           => $products,
+                'currentCategoryId'  => $id
+            ])->render();
+
+            return response()->json(['html' => $view]);
+        }
 
         return view('main.category', [
             'categoriesParent'   => Category::where('id', $id)->get(),
             'categoriesChildren' => Category::descendantsOf($id),
             'products'           => $products,
+            'currentCategoryId'  => $id
         ]);
-    }
-
-    public function loadMoreProducts(Request $request)
-    {
-        $nextProducts = Product::paginate(5, ['*'], 'page', $request->page);
-
-        return response()->json($nextProducts);
     }
 }

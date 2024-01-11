@@ -23,12 +23,11 @@ use YooKassa\Model\Notification\NotificationWaitingForCapture;
 
 class PaymentService
 {
-    public function getClient(): Client
-    {
-        $client = new Client();
-        $client->setAuth(config('services.yookassa.shop_id'), config('services.yookassa.secret_key'));
+    public Client $client;
 
-        return $client;
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
     }
 
     /**
@@ -48,8 +47,7 @@ class PaymentService
      */
     public function createPayment(float $amount, array $options = [])
     {
-        $client = $this->getClient();
-        $payment = $client->createPayment([
+        $payment = $this->client->createPayment([
             'amount' => [
                 'value'    => $amount,
                 'currency' => 'RUB'
@@ -90,7 +88,7 @@ class PaymentService
         $payment = $notification->getObject();
 
         if (isset($payment->status) && $payment->status === 'waiting_for_capture') {
-            $this->getClient()->capturePayment([
+            $this->client->capturePayment([
                 'amount' => $payment->amount
             ], $payment->id, uniqid('', true));
         }

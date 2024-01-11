@@ -11,7 +11,7 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ route('category', $category->id) }}"
+                            <a id="category" href="{{ route('category', $category->id) }}"
                                class="children">&#10148;{{ $category->name }}</a>
                         </li>
                     </ul>
@@ -29,4 +29,7 @@
         @endforeach
     </header>
     @include('main.products')
+    <div class="showmore-bottom" id="showmore-bottom">
+        <button id="showmore-button-category" data-id="{{ $currentCategoryId }}">Показать еще</button>
+    </div>
 @endsection
