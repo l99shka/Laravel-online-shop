@@ -31,10 +31,42 @@ $('#product-card').on('click', '.add-button' ,function (e) {
         success: (data) => {
             console.log(data);
 
+            notifySuccess()
             elementUpdate('span#icon')
         }
     });
 });
+
+
+function notify(type, message) {
+    (() => {
+        let notificationArea = document.getElementById("notification-area");
+        let existingNotification = notificationArea.querySelector(`.${type}`);
+
+        if (existingNotification) { // Если существует уведомление с таким же типом, удаляем его
+            existingNotification.remove();
+        }
+
+        let notification = document.createElement("div");
+        let id = Math.random().toString(36).substr(2, 10);
+
+        notification.setAttribute("id", id);
+        notification.classList.add("notification", type);
+        notification.innerText = message;
+
+        notificationArea.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    })();
+}
+
+
+
+function notifySuccess(){
+    notify("success","Товар добавлен в корзину!");
+}
 
 
 $('.minus-btn').on('click', function (e) {

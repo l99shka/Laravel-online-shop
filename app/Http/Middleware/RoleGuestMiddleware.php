@@ -18,9 +18,9 @@ class RoleGuestMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::id() === null) {
+        if ($request->user() === null) {
             return $next($request);
-        } elseif (auth()->user()->role === 'guest') {
+        } elseif ($request->user()->role === 'guest') {
             return $next($request);
         }
 

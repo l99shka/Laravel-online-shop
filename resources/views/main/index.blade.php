@@ -4,7 +4,7 @@
     @include('main.products')
 
     <div class="showmore-bottom" id="showmore-bottom">
-        @if (!$hasMoreProducts)
+        @if (!$products->hasMorePages())
             <button id="showmore-button" style="display: none;">Показать еще</button>
         @else
             <button id="showmore-button">Показать еще</button>

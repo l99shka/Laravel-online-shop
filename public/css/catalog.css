@@ -47,7 +47,6 @@ nav .menu:hover {
 }
 
 nav .count-style {
-    /*position: absolute;*/
     background-color: #d62240;
     width: 30px;
     height: 30px;
@@ -177,7 +176,7 @@ nav .catalog ul li a:hover {
 }
 
 .product-item {
-    /*overflow: hidden;*/
+    overflow: hidden;
     width: 300px;
     text-align: center;
     border-bottom: 2px solid #111010;
@@ -243,6 +242,45 @@ nav .catalog ul li a:hover {
 .add-button:hover {
     background: #6dc718;
 }
+
+/*Уведомление об успешном добавлении товара в корзину*/
+#notification-area {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    pointer-events: none; /* Add this line */
+}
+
+#notification-area.active {
+    pointer-events: auto; /* Add this line */
+}
+
+#notification-area .notification {
+    position:relative;
+    padding:15px 10px;
+    background: #46b7ae;
+    color: #ffffff;
+    font-family:"Raleway";
+    font-size:18px;
+    font-weight:600;
+    border-radius:15px;
+    margin:50px 0;
+    opacity:0;
+    left:20px;
+    animation:showNotification 500ms ease-in-out forwards;
+}
+@keyframes showNotification {
+    to {
+        opacity:1;
+        left:0;
+    }
+}
+/*---------------------------------------------------*/
 
 .home-cards {
     padding: 130px;

@@ -11,7 +11,10 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'name'
+    ];
 
     public function products(): BelongsToMany
     {

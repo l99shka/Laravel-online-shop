@@ -14,16 +14,14 @@ class MainController extends Controller
 
         if ($request->ajax()) {
             $view = view('main.products', [
-                'products'        => $products,
-                'hasMoreProducts' => $products->hasMorePages() // Проверка на наличие следующей страницы
+                'products' => $products,
             ])->render();
 
             return response()->json(['html' => $view]);
         }
 
         return view('main.index', [
-            'products'        => $products,
-            'hasMoreProducts' => $products->hasMorePages() // Проверка на наличие следующей страницы
+            'products' => $products,
         ]);
     }
 
@@ -49,7 +47,6 @@ class MainController extends Controller
                 'categoriesChildren' => Category::descendantsOf($id),
                 'products'           => $products,
                 'currentCategoryId'  => $id,
-                'hasMoreProducts'    => $products->hasMorePages() // Проверка на наличие следующей страницы
             ])->render();
 
             return response()->json(['html' => $view]);
@@ -60,7 +57,6 @@ class MainController extends Controller
             'categoriesChildren' => Category::descendantsOf($id),
             'products'           => $products,
             'currentCategoryId'  => $id,
-            'hasMoreProducts'    => $products->hasMorePages() // Проверка на наличие следующей страницы
         ]);
     }
 }

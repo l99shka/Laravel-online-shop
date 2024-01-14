@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/registration', [UserController::class, 'registration'])
-//    ->middleware('role_guest')
+    ->middleware(['role_guest', 'role_user_verified'])
     ->name('register-user');
 Route::post('/registration', [UserController::class, 'create']);
 
@@ -33,7 +33,7 @@ Route::get('/email/verify', EmailVerificationPromtController::class)
     ->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['role_user', 'signed', 'throttle:6.1'])
+    ->middleware(['role_user', 'signed', 'throttle:1.1'])
     ->name('verification.verify');
 
 Route::post('/email/verification-notification', EmailVerificationNotificationController::class)
@@ -45,7 +45,7 @@ Route::post('/email/verification-notification', EmailVerificationNotificationCon
 
 
 Route::get('/login', [UserController::class, 'login'])
-    ->middleware('role_guest')
+    ->middleware(['role_guest', 'role_user_verified'])
     ->name('login-user');
 Route::post('/login', [UserController::class, 'authorizeUser']);
 Route::post('/logout', [UserController::class, 'logout'])
@@ -53,30 +53,28 @@ Route::post('/logout', [UserController::class, 'logout'])
     ->name('logout');
 
 
-Route::get('/', [MainController::class, 'main'])
-    ->name('main');
-Route::get('/catalog', [MainController::class, 'catalog'])
-    ->name('catalog');
-Route::get('/category/{id}', [MainController::class, 'category'])
-    ->name('category');
+Route::middleware('role_user_verified')->group(function () {
+    Route::get('/', [MainController::class, 'main'])
+        ->name('main');
+    Route::get('/catalog', [MainController::class, 'catalog'])
+        ->name('catalog');
+    Route::get('/category/{id}', [MainController::class, 'category'])
+        ->name('category');
+});
 
 
 Route::get('/cart', [CartController::class, 'cart'])
-    ->middleware('auth')
+    ->middleware('role_user_verified')
     ->name('cart');
 Route::post('/addToCartProduct', [CartController::class, 'add'])
     ->name('addToCartProduct');
-Route::post('/updateQuantityMinus', [CartController::class, 'updateQuantityMinus'])
-    ->middleware('auth');
-Route::post('/deleteAll', [CartController::class, 'deleteAll'])
-    ->middleware('auth');
-
+Route::post('/updateQuantityMinus', [CartController::class, 'updateQuantityMinus']);
+Route::post('/deleteAll', [CartController::class, 'deleteAll']);
 
 Route::get('/order', [OrderController::class, 'order'])
-    ->middleware('auth')
+    ->middleware('role_user_verified')
     ->name('order');
 Route::post('/addOrder', [OrderController::class, 'add'])
-    ->middleware('auth')
     ->name('addOrder');
 Route::post('/order/pay/callback', [OrderController::class, 'callbackPay'])
     ->name('callback');

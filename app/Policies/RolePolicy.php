@@ -30,9 +30,9 @@ class RolePolicy
      */
     public function guest(User $user, User $model)
     {
-        if ($model->role === 'guest') {
-            return true;
-        }
+//        if ($model->role === 'guest') {
+//            return true;
+//        }
     }
 
     /**
@@ -44,9 +44,9 @@ class RolePolicy
      */
     public function user(User $user, User $model)
     {
-        if ($model->role === 'user') {
-            return true;
-        }
+//        if ($model->role === 'user') {
+//            return true;
+//        }
     }
 
     /**

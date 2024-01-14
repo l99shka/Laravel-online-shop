@@ -3,6 +3,7 @@
 namespace App\Service\Payment;
 
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Order;
 use App\Service\Message\MessageService;
 use YooKassa\Client;
@@ -99,7 +100,7 @@ class PaymentService
             if(isset($metadata->user_id)) {
 
                 $userId = $metadata->user_id;
-                Cart::where('user_id', $userId)->delete();
+                CartProduct::where('user_id', $userId)->delete();
             }
             if ($payment->paid === true) {
 

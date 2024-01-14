@@ -10,4 +10,5 @@
             </div>
         </div>
     @endforeach
+    <div id="notification-area"></div>
 </div>

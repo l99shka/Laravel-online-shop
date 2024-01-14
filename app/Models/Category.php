@@ -12,6 +12,13 @@ class Category extends Model
     use HasFactory;
     use NodeTrait;
 
+    protected $fillable = [
+        'parent_id',
+        'name',
+        '_lft',
+        '_rgt'
+    ];
+
     public static function getAll(): Collection|array
     {
        return self::all()->toTree();
