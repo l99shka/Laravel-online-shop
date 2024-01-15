@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\RoleAdminMiddleware;
 use App\Http\Middleware\RoleGuestMiddleware;
 use App\Http\Middleware\RoleUserMiddleware;
 use App\Http\Middleware\RoleUserVerification;
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role_guest' => RoleGuestMiddleware::class,
         'role_user' => RoleUserMiddleware::class,
+        'role_admin' => RoleAdminMiddleware::class,
         'role_user_verified' => RoleUserVerification::class
     ];
 }

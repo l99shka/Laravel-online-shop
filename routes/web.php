@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\EmailVerificationNotificationController;
 use App\Http\Controllers\EmailVerificationPromtController;
@@ -33,11 +34,11 @@ Route::get('/email/verify', EmailVerificationPromtController::class)
     ->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['role_user', 'signed', 'throttle:1.1'])
+    ->middleware(['role_user', 'signed'])
     ->name('verification.verify');
 
 Route::post('/email/verification-notification', EmailVerificationNotificationController::class)
-    ->middleware(['role_user', 'throttle:6.1'])
+    ->middleware(['role_user', 'throttle:1.1'])
     ->name('verification.send');
 //------------------------------------------------
 
@@ -49,7 +50,7 @@ Route::get('/login', [UserController::class, 'login'])
     ->name('login-user');
 Route::post('/login', [UserController::class, 'authorizeUser']);
 Route::post('/logout', [UserController::class, 'logout'])
-    ->middleware('role_user')
+    ->middleware('role_user|role_admin')
     ->name('logout');
 
 
@@ -78,5 +79,11 @@ Route::post('/addOrder', [OrderController::class, 'add'])
     ->name('addOrder');
 Route::post('/order/pay/callback', [OrderController::class, 'callbackPay'])
     ->name('callback');
+
+
+Route::middleware('role_admin')->group(function () {
+    Route::get('admin-panel', [AdminController::class, 'admin'])
+        ->name('admin-panel');
+});
 
 

@@ -58,7 +58,10 @@
                 <span class="count-style" id="icon">{{ app('qty') }}</span>
             </svg>
         </a>
-        @if(auth()->user() && auth()->user()->role === 'user')
+        @if(auth()->user() && auth()->user()->role === 'user' | auth()->user()->role === 'admin')
+            @if(auth()->user()->role === 'admin')
+                <a class="menu" href="{{ route('admin-panel') }}">Админ панель</a>
+            @endif
             <a class="menu" href="">Личный кабинет</a>
             <form method="post" class="logout" action="{{ route('logout') }}">
                 @csrf

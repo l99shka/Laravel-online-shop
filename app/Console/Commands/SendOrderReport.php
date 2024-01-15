@@ -41,6 +41,6 @@ class SendOrderReport extends Command
 
         Mail::to('l99shka@icloud.com')->send(new OrderReport($data));
 
-        $this->info('Отчет о количетсве оплаченных заказах за последний месяц отправлен');
+        $this->info('Отчет о количетсве оплаченных заказов за последний месяц отправлен');
     }
 }
